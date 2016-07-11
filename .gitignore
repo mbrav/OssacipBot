@@ -1,0 +1,5 @@
+.DS_Store
+*.gif
+build
+app
+node_modules

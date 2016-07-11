@@ -1,0 +1,14 @@
+{
+  "name": "OssacipBot",
+  "version": "1.0.0",
+  "description": "I love art. Random is my type of order.",
+  "main": "bot.js",
+  "scripts": {
+    "start": "node bot.js"
+  },
+  "dependencies" : {
+    "twit" : "latest"
+  },
+  "author": "Michael Braverman",
+  "license": "MIT"
+}
