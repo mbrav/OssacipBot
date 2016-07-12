@@ -8,20 +8,21 @@ class Fractal {
 
   // Formula variables
   float[] vars = new float[6];
-  int morphingVar; //
+  int morphingVar; // the value that causes the moves
 
-  float increment;
+  float increment; // added to morphingVar every frame
   int frames; // total frames
-  int frameCount; // tcurrent frame number
+  int frameCount; // current frame number
 
-  // CONFIGURABLE VARIABLES
   // sets the frame on which the fracal reverses
   int reverseFrameIndex;
   boolean reverse = false;
 
-  // for simulating
-  PVector max = new PVector(0,0,0);
-  PVector min = new PVector(0,0,0);
+  // for simulating and debuging
+  int simulationCount = 0;
+  PVector max = new PVector(-10,-10,-10);
+  PVector min = new PVector(10,10,10);
+  PVector delta = new PVector();
 
   Fractal(float _increment, int _frames) {
     increment = _increment;
@@ -42,6 +43,14 @@ class Fractal {
     morphingVar = int(random(0, 6));
     // set it to 0
     vars[morphingVar] = 0;
+    resetFractal();
+  }
+
+  // set the fractal to its begining without re-randomizing values
+  void resetFractal() {
+    vars[morphingVar] = 0;
+    reverse = false;
+    frameCount = 0;
   }
 
   // draw the Fractal
@@ -51,47 +60,88 @@ class Fractal {
 
   // a funtion that simulates the randomized variables
   // checks if the animation is "good" enough
-  // TODO
   void simulate() {
-    int simulationCount = 0;
     int now = millis();
 
     // while not a good Fractal, continue simulating
     boolean goodFractal = false;
     while (!goodFractal) {
-        goodFractal = true;
+      // asume the fractal is good to begin with
+      goodFractal = true;
+
+      // simulate all the fractal's frames
+      for (int i = 0; i < frames; i++) {
+
+        // render the one fractal frame without drawing it
+        render(false);
+
+        // arguments that categorize the fractal as "not good"
+        // (based on a ton of data monitoring without any particular reasoning behind the rules. it's math and logic.)
+        // Generally, when to many values equal zero, that's when you get an empty/booring frame
+        boolean arg1 = (delta.x < 0.3 && delta.y < 0.3 && delta.z < 0.3);
+        boolean arg2 = (min.x == 0 && min.y == 0 && min.z == 0);
+        boolean arg3 = (max.x == 0 && max.y == 0 && max.z == 0);
+        // at least on zero in both min an max vectors
+        boolean arg4 = (min.x == 0 || min.y == 0 || min.z == 0) && (max.x == 0 || max.y == 0 || max.z == 0);
+        // two zero's in min and max vectors
+        boolean arg6 = ((min.x == 0 && min.y == 0) || (min.x == 0 && min.z == 0) || (min.y == 0 && min.z == 0));
+        boolean arg5 = ((max.x == 0 && max.y == 0) || (max.x == 0 && max.z == 0) || (max.y == 0 && max.z == 0));
+
+        // provide arguments that question the fractal's "fullness"
+        if (arg1 || arg2 || arg3 || arg4 || arg5 || arg6) {
+          simulationCount ++;
+          goodFractal = false;
+
+          // generate a new fractal and jump out of this fractal
+          randomizeFractal();
+          break;
+        } else {
+          goodFractal = true;
+        }
+      }
     }
+
+    // reset the fractal to the initial values
+    resetFractal();
 
     print("Took ");
     print(millis() - now);
-    println(" milliseconds to simulate.");
+    print(" milliseconds to simulate.");
+    print("\n");
     print("Saved you from ");
     print(simulationCount);
-    println(" boring Fractal animations.");
+    print(" boring animations.");
+    print("\n");
   }
 
   // The main fractal function that simulates or renders the Fractal
   // If false, the fractal will just be calculated without being displayed
   void render(boolean paint) {
 
+    // "rewind" animation
     if (reverse && frameCount == reverseFrameIndex) {
-      // "rewind" animation
       increment = -increment;
     }
 
+    // increase the value of the morphing value
     vars[morphingVar] += increment;
 
+    // number of points to draw
     int points;
     if (paint) {
       points = pointsNumber;
     } else {
-      // decrease number of points in simulation
-      points = pointsNumber/100;
+      // decrease number of points when simulating
+      points = 1000;
     }
 
+    // reset debug values
+    max.set(0,0,0);
+    min.set(0,0,0);
     PVector newPos = new PVector(0,0,0);
-    for (int i = 0; i < points; i++) {
 
+    // itirate throught all the points
+    for (int i = 0; i < points; i++) {
       newPos.x = sin(vars[0] * pos.y) + cos(vars[1] * pos.x) - cos(vars[2] * pos.z);
       newPos.y = sin(vars[3] * pos.y) + cos(vars[4] * pos.x) - cos(vars[5] * pos.z);
       newPos.z = pos.x + PI/120;
@@ -99,36 +149,49 @@ class Fractal {
       pos.y = newPos.y;
       pos.z = newPos.z;
 
-      if (paint) {
-        // draw point on screen
-        point(pos.x * width/(PI*2) + width/2, pos.y * height/(PI*2) + height/2);
-      } else {
-        // debug stuff for simulation
-        if (abs(max.x) < abs(pos.x)) {
-          max.x = pos.x;
-        }
-        if (abs(max.y) < abs(pos.y)) {
-          max.y = pos.y;
-        }
-        if (abs(max.z) < abs(pos.z)) {
-          max.z = pos.z;
-        }
+      // draw point on screen
+      point(pos.x * width/(PI*2) + width/2, pos.y * height/(PI*2) + height/2);
 
-        if (abs(min.x) > abs(pos.x)) {
-          min.x = pos.x;
-        }
-        if (abs(min.y) > abs(pos.y)) {
-          min.y = pos.y;
-        }
-        if (abs(min.z) > abs(pos.z)) {
-          min.z = pos.z;
-        }
+      // stuff for simulation and debuging
+      if (max.x < pos.x) {
+        max.x = pos.x;
+      }
+      if (max.y < pos.y) {
+        max.y = pos.y;
+      }
+      if (max.z < pos.z) {
+        max.z = pos.z;
+      }
+
+      if (min.x > pos.x) {
+        min.x = pos.x;
+      }
+      if (min.y > pos.y) {
+        min.y = pos.y;
+      }
+      if (min.z > pos.z) {
+        min.z = pos.z;
       }
     }
+
+    // calculate delta between the max's an min's
+    delta.set(max.x - min.x, max.y - min.y, max.z - min.z);
+
+    // count as a new frame
     frameCount ++;
+
+    print("Frame ");
+    print(frameCount);
+    print(" min");
+    print(min);
+    print(" max");
+    print(max);
+    print(" delta");
+    print(delta);
+    print("\n");
   }
 
-  // option "rewind" the fractal backwards
+  // option to "rewind" the fractal backwards
   void setReversePoint(int frameIndex) {
     reverse = !reverse;
     reverseFrameIndex = frameIndex;

@@ -47,38 +47,39 @@ void setup() {
   // cover all the values of PI (0 - 3.14)
   fractal = new Fractal(PI/frames*2, frames);
 
+  // picks the best values for rendering the fractal
+  fractal.simulate();
+
   // "rewind" the fractal backwards once on the mid frame
   fractal.setReversePoint(frames/2);
 }
 
 void draw () {
   // set color
-  background(rgb.x,rgb.y,rgb.z);
+  background(255 - rgb.x, 255 - rgb.y, 255 - rgb.z);
   // inverse color for stroke
-  stroke(255 - rgb.x,255 - rgb.y, 255 - rgb.z, 50);
+  stroke(rgb.x,rgb.y, rgb.z, 50);
   noFill();
+
+  // count frames
+  framesCount++;
 
   // draw fractal
   fractal.draw();
 
-  // Deal with Gif
+  // new frame
   gifFrame();
 }
 
+// deal with Gif
 void gifFrame(){
-  // count frames
-  framesCount++;
-  print(framesCount);
-  print(" ");
-
-  // gif control
   if (frames >= framesCount) {
     gifExport.setDelay(1);
     gifExport.addFrame();
     if (framesCount == frames) {
       gifExport.finish();
-      println("GIF saved");
-      println("exiting program...");
+      print("GIF saved");
+      print("\n");
 
       // EXIT PROGRAM
       exit();
