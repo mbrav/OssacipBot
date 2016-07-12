@@ -24,8 +24,8 @@ int framesCount;
 
 void setup() {
   frameRate(30);
-  size(500, 500, P2D);
-  smooth(2);
+  size(700, 700, P2D);
+  noSmooth();
 
   // setup Gif export
   gifExport = new GifMaker(this, "export.gif");
@@ -58,7 +58,7 @@ void draw () {
   // set color
   background(255 - rgb.x, 255 - rgb.y, 255 - rgb.z);
   // inverse color for stroke
-  stroke(rgb.x,rgb.y, rgb.z, 50);
+  stroke(rgb.x,rgb.y, rgb.z, 40);
   noFill();
 
   // count frames

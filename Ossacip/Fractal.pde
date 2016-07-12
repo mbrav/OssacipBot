@@ -3,7 +3,7 @@
 
 class Fractal {
   // number of points per frame
-  int pointsNumber = 250000;
+  int pointsNumber = 500000;
   PVector pos = new PVector(0,0,0);
 
   // Formula variables
