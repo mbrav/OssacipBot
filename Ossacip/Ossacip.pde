@@ -14,17 +14,17 @@ GifMaker gifExport;
 // classes
 Fractal fractal;
 
-//color
+// color
 PVector rgb;
 int colorContrast = 220; // 0 - 255
 
-// prime numbers might work better
-int frames = 61;
+// frames
+int frames = 60;
 int framesCount;
 
 void setup() {
   frameRate(30);
-  size(700, 700, P2D);
+  size(600, 600, P2D);
   noSmooth();
 
   // setup Gif export
@@ -58,7 +58,7 @@ void draw () {
   // set color
   background(255 - rgb.x, 255 - rgb.y, 255 - rgb.z);
   // inverse color for stroke
-  stroke(rgb.x,rgb.y, rgb.z, 40);
+  stroke(rgb.x,rgb.y, rgb.z, 50);
   noFill();
 
   // count frames
@@ -74,7 +74,6 @@ void draw () {
 // deal with Gif
 void gifFrame(){
   if (frames >= framesCount) {
-    gifExport.setDelay(1);
     gifExport.addFrame();
     if (framesCount == frames) {
       gifExport.finish();

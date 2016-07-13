@@ -34,9 +34,7 @@ class Fractal {
   // randomize fractal variables
   void randomizeFractal() {
     for (int i = 0; i < vars.length; i++) {
-      // round to numbers that are division of PI
-      // increases the clarity of geomtric lines
-      vars[i] = int(random(0,frames)) * PI/frames;
+      vars[i] = random(0,frames) * PI/frames;
     }
 
     // chose a random number that will morph
@@ -131,8 +129,8 @@ class Fractal {
     if (paint) {
       points = pointsNumber;
     } else {
-      // decrease number of points when simulating
-      points = 1000;
+      // less points are needed when simulating
+      points = 10000;
     }
 
     // reset debug values
@@ -149,8 +147,11 @@ class Fractal {
       pos.y = newPos.y;
       pos.z = newPos.z;
 
-      // draw point on screen
-      point(pos.x * width/(PI*2) + width/2, pos.y * height/(PI*2) + height/2);
+      // avoids the simulation taking too much time
+      if (paint) {
+        // draw point on screen
+        point(pos.x * width/(6) + width/2, pos.y * height/(6) + height/2);
+      }
 
       // stuff for simulation and debuging
       if (max.x < pos.x) {
@@ -174,21 +175,23 @@ class Fractal {
       }
     }
 
+    // count as a completed frame
+    frameCount ++;
+
     // calculate delta between the max's an min's
     delta.set(max.x - min.x, max.y - min.y, max.z - min.z);
 
-    // count as a new frame
-    frameCount ++;
-
-    print("Frame ");
-    print(frameCount);
-    print(" min");
-    print(min);
-    print(" max");
-    print(max);
-    print(" delta");
-    print(delta);
-    print("\n");
+    if (paint) {
+      print("Frame ");
+      print(frameCount);
+      print(" min");
+      print(min);
+      print(" max");
+      print(max);
+      print(" delta");
+      print(delta);
+      print("\n");
+    }
   }
 
   // option to "rewind" the fractal backwards
