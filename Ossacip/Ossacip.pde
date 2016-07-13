@@ -43,9 +43,9 @@ void setup() {
     rgb = new PVector(random(0,colorContrast),random(0,colorContrast),random(0,colorContrast));
   }
 
-  // create a new fractal that will
-  // cover all the values of PI (0 - 3.14)
-  fractal = new Fractal(PI/frames*2, frames);
+  // create a new fractal that will cover all values from 0 to te value of "range"
+  float range = random(PI/8, PI);
+  fractal = new Fractal(range/frames*2, frames);
 
   // picks the best values for rendering the fractal
   fractal.simulate();
@@ -58,7 +58,7 @@ void draw () {
   // set color
   background(255 - rgb.x, 255 - rgb.y, 255 - rgb.z);
   // inverse color for stroke
-  stroke(rgb.x,rgb.y, rgb.z, 50);
+  stroke(rgb.x,rgb.y, rgb.z, 22);
   noFill();
 
   // count frames
@@ -67,7 +67,7 @@ void draw () {
   // draw fractal
   fractal.draw();
 
-  // new frame
+  // export new frame
   gifFrame();
 }
 

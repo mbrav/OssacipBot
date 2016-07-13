@@ -3,7 +3,7 @@
 
 class Fractal {
   // number of points per frame
-  int pointsNumber = 500000;
+  int pointsNumber = 1000000;
   PVector pos = new PVector(0,0,0);
 
   // Formula variables
@@ -23,6 +23,7 @@ class Fractal {
   PVector max = new PVector(-10,-10,-10);
   PVector min = new PVector(10,10,10);
   PVector delta = new PVector();
+  long millis;
 
   Fractal(float _increment, int _frames) {
     increment = _increment;
@@ -31,7 +32,6 @@ class Fractal {
     randomizeFractal();
   }
 
-  // randomize fractal variables
   void randomizeFractal() {
     for (int i = 0; i < vars.length; i++) {
       vars[i] = random(0,frames) * PI/frames;
@@ -39,7 +39,6 @@ class Fractal {
 
     // chose a random number that will morph
     morphingVar = int(random(0, 6));
-    // set it to 0
     vars[morphingVar] = 0;
     resetFractal();
   }
@@ -53,13 +52,13 @@ class Fractal {
 
   // draw the Fractal
   void draw() {
-    render(true);
+    renderFractal(true);
   }
 
   // a funtion that simulates the randomized variables
   // checks if the animation is "good" enough
   void simulate() {
-    int now = millis();
+    int timer = millis();
 
     // while not a good Fractal, continue simulating
     boolean goodFractal = false;
@@ -70,8 +69,8 @@ class Fractal {
       // simulate all the fractal's frames
       for (int i = 0; i < frames; i++) {
 
-        // render the one fractal frame without drawing it
-        render(false);
+        // render fractal without drawing it
+        renderFractal(false);
 
         // arguments that categorize the fractal as "not good"
         // (based on a ton of data monitoring without any particular reasoning behind the rules. it's math and logic.)
@@ -85,12 +84,12 @@ class Fractal {
         boolean arg6 = ((min.x == 0 && min.y == 0) || (min.x == 0 && min.z == 0) || (min.y == 0 && min.z == 0));
         boolean arg5 = ((max.x == 0 && max.y == 0) || (max.x == 0 && max.z == 0) || (max.y == 0 && max.z == 0));
 
-        // provide arguments that question the fractal's "fullness"
+        // provide arguments that question the fractal's "goodness"
         if (arg1 || arg2 || arg3 || arg4 || arg5 || arg6) {
           simulationCount ++;
           goodFractal = false;
 
-          // generate a new fractal and jump out of this fractal
+          // re-radnomiz fractal
           randomizeFractal();
           break;
         } else {
@@ -99,22 +98,22 @@ class Fractal {
       }
     }
 
-    // reset the fractal to the initial values
     resetFractal();
 
     print("Took ");
-    print(millis() - now);
+    print(millis() - timer);
     print(" milliseconds to simulate.");
     print("\n");
-    print("Saved you from ");
+    print("While saving you from ");
     print(simulationCount);
     print(" boring animations.");
     print("\n");
+
   }
 
   // The main fractal function that simulates or renders the Fractal
   // If false, the fractal will just be calculated without being displayed
-  void render(boolean paint) {
+  void renderFractal(boolean paint) {
 
     // "rewind" animation
     if (reverse && frameCount == reverseFrameIndex) {
@@ -123,6 +122,12 @@ class Fractal {
 
     // increase the value of the morphing value
     vars[morphingVar] += increment;
+
+    // reset debug values
+    millis = millis();
+    max.set(0,0,0);
+    min.set(0,0,0);
+    PVector newPos = new PVector(0,0,0);
 
     // number of points to draw
     int points;
@@ -133,11 +138,6 @@ class Fractal {
       points = 10000;
     }
 
-    // reset debug values
-    max.set(0,0,0);
-    min.set(0,0,0);
-    PVector newPos = new PVector(0,0,0);
-
     // itirate throught all the points
     for (int i = 0; i < points; i++) {
       newPos.x = sin(vars[0] * pos.y) + cos(vars[1] * pos.x) - cos(vars[2] * pos.z);
@@ -147,13 +147,13 @@ class Fractal {
       pos.y = newPos.y;
       pos.z = newPos.z;
 
-      // avoids the simulation taking too much time
+      // unecessary to draw the fractal when calculating
       if (paint) {
         // draw point on screen
         point(pos.x * width/(6) + width/2, pos.y * height/(6) + height/2);
       }
 
-      // stuff for simulation and debuging
+      // stuff for simulating and debuging
       if (max.x < pos.x) {
         max.x = pos.x;
       }
@@ -184,12 +184,15 @@ class Fractal {
     if (paint) {
       print("Frame ");
       print(frameCount);
-      print(" min");
-      print(min);
-      print(" max");
-      print(max);
-      print(" delta");
-      print(delta);
+      print(" took ");
+      print((millis() - millis));
+      print(" milliseconds to render ");
+      // print(" min");
+      // print(min);
+      // print(" max");
+      // print(max);
+      // print(" delta");
+      // print(delta);
       print("\n");
     }
   }

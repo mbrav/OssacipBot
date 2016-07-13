@@ -18,7 +18,7 @@ The formula is bases on the notion of mathematical [Dynamical Systems](https://e
 
 ![Math Formula Image](https://i.imgur.com/Kk5R18t.png)
 
-### Installation
+## Installation
 This is the installation procedure that was followed on a Ubuntu server setup. The procedure however is different on systems like mac OS and Windows.
 
 Clone the repository using git
