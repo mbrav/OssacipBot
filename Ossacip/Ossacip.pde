@@ -58,7 +58,7 @@ void draw () {
   // set color
   background(255 - rgb.x, 255 - rgb.y, 255 - rgb.z);
   // inverse color for stroke
-  stroke(rgb.x,rgb.y, rgb.z, 22);
+  stroke(rgb.x,rgb.y, rgb.z, 18);
   noFill();
 
   // count frames
@@ -74,6 +74,7 @@ void draw () {
 // deal with Gif
 void gifFrame(){
   if (frames >= framesCount) {
+    gifExport.setDelay(1);
     gifExport.addFrame();
     if (framesCount == frames) {
       gifExport.finish();

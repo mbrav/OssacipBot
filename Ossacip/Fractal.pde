@@ -141,7 +141,7 @@ class Fractal {
     // itirate throught all the points
     for (int i = 0; i < points; i++) {
       newPos.x = sin(vars[0] * pos.y) + cos(vars[1] * pos.x) - cos(vars[2] * pos.z);
-      newPos.y = sin(vars[3] * pos.y) + cos(vars[4] * pos.x) - cos(vars[5] * pos.z);
+      newPos.y = sin(vars[3] * pos.x) + cos(vars[4] * pos.y) - cos(vars[5] * pos.z);
       newPos.z = pos.x + PI/120;
       pos.x = newPos.x;
       pos.y = newPos.y;
