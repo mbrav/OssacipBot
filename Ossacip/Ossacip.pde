@@ -58,7 +58,7 @@ void draw () {
   // set color
   background(255 - rgb.x, 255 - rgb.y, 255 - rgb.z);
   // inverse color for stroke
-  stroke(rgb.x,rgb.y, rgb.z, 18);
+  stroke(rgb.x,rgb.y, rgb.z, 11);
   noFill();
 
   // count frames
