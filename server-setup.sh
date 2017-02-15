@@ -26,6 +26,6 @@ echo "Creating an executable Processing applet."
 #sudo apt-get install xvfb libxrender1 libxtst6 libxi6 xorg xvfb dbus-x11 xfonts-100dpi xfonts-75dpi xfonts-cyrillic
 
 #Make the generator script executable
-sudo chmod +x node/generate.sh
+sudo chmod +x OssacipBot/node/generate.sh
 
 echo "OssacipBot is set up!"
