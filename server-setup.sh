@@ -5,10 +5,12 @@
 echo "Configuring OssacipBot server..."
 
 #Download Processing into home folder
-echo "Downloading Processing 3..."
-wget http://download.processing.org/processing-3.3-linux64.tgz -P ~/
-tar -xvzf ~/processing-3.3-linux64.tgz
-rm ~/processing-3.3-linux64.tgz
+cd ~/
+echo "Downloading Processing 3 into home directory..."
+wget http://download.processing.org/processing-3.3-linux64.tgz
+echo "Unpacking Processing..."
+tar -xvzf processing-3.3-linux64.tgz
+rm processing-3.3-linux64.tgz
 
 #Install Processing dependencies
 echo "Installing Processing 3 libraries..."
