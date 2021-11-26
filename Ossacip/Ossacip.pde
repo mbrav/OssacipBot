@@ -1,15 +1,19 @@
-// Ossacip Bot v1.0
+// Ossacip Bot v1.1
 
 // by Michael Braverman
 // July 7th, 2016
 
+// Updated
+// November 26th, 2021
+
 // DEPENDENCIES:
 // Make sure you have the following Processing 3 libraries installed:
-// GifAnimation: https://github.com/01010101/GifAnimation/
+// processing-video : https://github.com/processing/processing-video
 
 // libraries
-import gifAnimation.*;
-GifMaker gifExport;
+import com.hamoid.*;
+// create a new VideoExport-object
+VideoExport videoExport;
 
 // classes
 Fractal fractal;
@@ -24,13 +28,13 @@ int framesCount;
 
 void setup() {
   frameRate(30);
-  size(600, 600, P2D);
+  size(720, 720, P2D);
   noSmooth();
 
-  // setup Gif export
-  gifExport = new GifMaker(this, "export.gif");
-  gifExport.setRepeat(0);
-  gifExport.setQuality(4);
+  // setup Video export
+  videoExport = new VideoExport(this, "export.mp4");
+  videoExport.setFrameRate(30);  
+  videoExport.startMovie();
 
   // Beter contrasting background/foreground colors
   // makes sure there are only dark/bright color combinations
@@ -68,19 +72,16 @@ void draw () {
   fractal.draw();
 
   // export new frame
-  gifFrame();
+  newFrame();
 }
 
-// deal with Gif
-void gifFrame(){
-  if (frames >= framesCount) {
-    gifExport.setDelay(1);
-    gifExport.addFrame();
+// deal with frame
+void newFrame(){
+  if (framesCount <= frames) {
+    videoExport.saveFrame();
     if (framesCount == frames) {
-      gifExport.finish();
-      print("GIF saved");
-      print("\n");
-
+      videoExport.endMovie();
+      print("Movie saved \n");
       // EXIT PROGRAM
       exit();
     }

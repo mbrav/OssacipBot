@@ -78,7 +78,7 @@ class Fractal {
         boolean arg1 = (delta.x < 0.3 && delta.y < 0.3 && delta.z < 0.3);
         boolean arg2 = (min.x == 0 && min.y == 0 && min.z == 0);
         boolean arg3 = (max.x == 0 && max.y == 0 && max.z == 0);
-        // at least on zero in both min an max vectors
+        // at least one zero in both min an max vectors
         boolean arg4 = (min.x == 0 || min.y == 0 || min.z == 0) && (max.x == 0 || max.y == 0 || max.z == 0);
         // two zero's in min and max vectors
         boolean arg6 = ((min.x == 0 && min.y == 0) || (min.x == 0 && min.z == 0) || (min.y == 0 && min.z == 0));

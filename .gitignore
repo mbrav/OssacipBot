@@ -4,3 +4,4 @@ build
 app
 node_modules
 exports
+processing-*/
