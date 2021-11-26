@@ -130,16 +130,25 @@ class Fractal {
     PVector newPos = new PVector(0,0,0);
 
     // number of points to draw
-    int points;
+    int p;
+    PVector[] points = new PVector[pointsNumber];
     if (paint) {
-      points = pointsNumber;
+      p = pointsNumber;
     } else {
       // less points are needed when simulating
-      points = 10000;
+      points = new PVector[10000];
+      p = 10000;
     }
 
-    // itirate throught all the points
-    for (int i = 0; i < points; i++) {
+    // 1013 ms to render frame before improvements
+    // 843 ms (17% improvement) to render frame after improvements
+    // 263 ms to calculate dots with no draw
+    for (int i = 0; i < points.length; i++) {
+      points[i] = new PVector();
+    }
+
+    // iterate through all the points
+    for (int i = 0; i < points.length; i++) {
       newPos.x = sin(vars[0] * pos.y) + cos(vars[1] * pos.x) - cos(vars[2] * pos.z);
       newPos.y = sin(vars[3] * pos.x) + cos(vars[4] * pos.y) - cos(vars[5] * pos.z);
       newPos.z = pos.x + PI/120;
@@ -147,11 +156,11 @@ class Fractal {
       pos.y = newPos.y;
       pos.z = newPos.z;
 
-      // unecessary to draw the fractal when calculating
-      if (paint) {
-        // draw point on screen
-        point(pos.x * width/(6) + width/2, pos.y * height/(6) + height/2);
-      }
+
+      // save point to vector array
+      points[i].x = pos.x * width/(6) + width/2;
+      points[i].y = pos.y * height/(6) + height/2;
+      // points[i].z = pos.z;
 
       // stuff for simulating and debuging
       if (max.x < pos.x) {
@@ -172,6 +181,14 @@ class Fractal {
       }
       if (min.z > pos.z) {
         min.z = pos.z;
+      }
+    }
+
+    // unnecessary to draw the fractal when calculating
+    if (paint) {
+      for (int i = 0; i < points.length; i++) {
+        // draw point on screen
+        point(points[i].x, points[i].y);
       }
     }
 
