@@ -16,7 +16,7 @@ unzip VideoExport-23.zip -x "**/examples/*" -d ~/sketchbook/libraries/
 rm VideoExport-23.zip
 
 #Create a complied executable Processing Applet
-./processing-3.5.4/processing-java --sketch=Ossacip --output=node/app --force --export
+./processing-3.5.4/processing-java --sketch=Ossacip --output=bot/app --force --export
 
 #Install Xvfb a screen emulater and dependencies
 #Needed for displaying Processing apps on computers without screens
