@@ -1,5 +1,5 @@
 // Based on Vincent D. Warmerdam's formula
-// http://koaning.io/fluctuating-repetition.html
+// https://www.youtube.com/watch?v=h1qGfvi8Ueg
 
 class Fractal {
   // number of points per frame
@@ -14,7 +14,7 @@ class Fractal {
   int frames; // total frames
   int frameCount; // current frame number
 
-  // sets the frame on which the fracal reverses
+  // sets the frame on which the fractal reverses
   int reverseFrameIndex;
   boolean reverse = false;
 
@@ -43,7 +43,7 @@ class Fractal {
     resetFractal();
   }
 
-  // set the fractal to its begining without re-randomizing values
+  // set the fractal to its beginning without re-randomizing values
   void resetFractal() {
     vars[morphingVar] = 0;
     reverse = false;
@@ -89,7 +89,7 @@ class Fractal {
           simulationCount ++;
           goodFractal = false;
 
-          // re-radnomiz fractal
+          // re-randomize fractal
           randomizeFractal();
           break;
         } else {
@@ -162,7 +162,7 @@ class Fractal {
       points[i].y = pos.y * height/(6) + height/2;
       // points[i].z = pos.z;
 
-      // stuff for simulating and debuging
+      // stuff for simulating and debugging
       if (max.x < pos.x) {
         max.x = pos.x;
       }
@@ -212,6 +212,9 @@ class Fractal {
       // print(delta);
       print("\n");
     }
+
+    // release memory
+    System.gc();
   }
 
   // option to "rewind" the fractal backwards
