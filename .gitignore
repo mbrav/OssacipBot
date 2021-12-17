@@ -4,4 +4,12 @@ build
 app
 node_modules
 exports
-processing-*/
+processing/
+venv/
+.vscode/settings.json
+.python-version
+bot/.env
+*/*.mp4
+Ossacip/ffmpeg.txt
+*.log
+*/target/
