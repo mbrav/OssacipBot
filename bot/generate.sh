@@ -7,3 +7,6 @@ xinit ./app/Ossacip
 
 #runs the processing sketch normally
 # ./app/Ossacip
+
+rm ./app/*.log
+rm ./app/*.txt
