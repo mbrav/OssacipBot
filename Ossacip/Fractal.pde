@@ -33,12 +33,14 @@ class Fractal {
   }
 
   void randomizeFractal() {
+    // chose a random number that will morph
+    morphingVar = int(random(0, 6));
+
+
     for (int i = 0; i < vars.length; i++) {
       vars[i] = random(0,frames) * PI/frames;
     }
 
-    // chose a random number that will morph
-    morphingVar = int(random(0, 6));
     vars[morphingVar] = 0;
     resetFractal();
   }
@@ -140,13 +142,6 @@ class Fractal {
       p = 10000;
     }
 
-    // 1013 ms to render frame before improvements
-    // 843 ms (17% improvement) to render frame after improvements
-    // 263 ms to calculate dots with no draw
-    for (int i = 0; i < points.length; i++) {
-      points[i] = new PVector();
-    }
-
     // iterate through all the points
     for (int i = 0; i < points.length; i++) {
       newPos.x = sin(vars[0] * pos.y) + cos(vars[1] * pos.x) - cos(vars[2] * pos.z);
@@ -157,9 +152,14 @@ class Fractal {
       pos.z = newPos.z;
 
 
+      // unnecessary to draw the fractal when calculating
+      if (paint) {
+        // draw point on screen
+        point(pos.x * width/(6) + width/2, pos.y * height/(6) + height/2);
+      }
       // save point to vector array
-      points[i].x = pos.x * width/(6) + width/2;
-      points[i].y = pos.y * height/(6) + height/2;
+      // points[i].x = pos.x * width/(6) + width/2;
+      // points[i].y = pos.y * height/(6) + height/2;
       // points[i].z = pos.z;
 
       // stuff for simulating and debugging
@@ -184,13 +184,6 @@ class Fractal {
       }
     }
 
-    // unnecessary to draw the fractal when calculating
-    if (paint) {
-      for (int i = 0; i < points.length; i++) {
-        // draw point on screen
-        point(points[i].x, points[i].y);
-      }
-    }
 
     // count as a completed frame
     frameCount ++;

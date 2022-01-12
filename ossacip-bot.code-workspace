@@ -1,0 +1,74 @@
+{
+	"folders": [
+		{
+			"name": "Rust",
+			"path": "ossacip_rs"
+		},
+		{
+			"name": "Processing",
+			"path": "Ossacip"
+		},
+		{
+			"name": "Ossacip bot",
+			"path": "bot"
+		},
+		{
+			"name": "Home",
+			"path": "."
+		}
+	],
+	"settings": {
+		"python.pythonPath": "/home/politburo/.pyenv/versions/OssacipBot/bin/python",
+		"files.exclude": {
+			"bot/": true,
+			"Ossacip/": true,
+			"ossacip_rs/": true
+		}
+	},
+	"launch": {
+		// https://github.com/vadimcn/vscode-lldb/blob/v1.6.10/MANUAL.md
+		"version": "0.2.0",
+		"configurations": [
+			{
+				"type": "lldb",
+				"request": "launch",
+				"name": "Rust: Run Target",
+				"program": "${fileWorkspaceFolder}/target/release/ossacip_rs",
+				"args": [],
+				"cwd": "${fileWorkspaceFolder}"
+			},
+			{
+				"type": "shell",
+				"name": "Rust: Run Program",
+				"request": "launch",
+				"command": "cargo", // Could be any other shell command
+				"args": ["run", "--release"],
+				"options": {
+					"cwd": "${fileWorkspaceFolder}"
+				}
+			},
+			// {
+			// 	"type": "lldb",
+			// 	"request": "launch",
+			// 	"name": "Run Program",
+			// 	"cargo": {
+			// 		"args": ["test", "--no-run", "--lib"], // Cargo command line to build the debug target
+			// 		// "args": ["build", "--bin=foo"] is another possibility
+			// 		"filter": {
+			// 			// Filter applied to compilation artifacts (optional)
+			// 			"name": "mylib",
+			// 			"kind": "lib"
+			// 		}
+			// 	}
+			// },
+			{
+				"group": "Python",
+				"name": "Python: Current File",
+				"type": "python",
+				"request": "launch",
+				"program": "${file}",
+				"console": "integratedTerminal"
+			}
+		]
+	}
+}

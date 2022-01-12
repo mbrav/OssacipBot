@@ -1,4 +1,4 @@
-// Ossacip Bot v1.1
+// Ossacip Bot v2
 
 // by Michael Braverman
 // July 7th, 2016
@@ -23,12 +23,12 @@ PVector rgb;
 int colorContrast = 220; // 0 - 255
 
 // frames
-int frames = 60;
+int frames = 120;
 int framesCount;
 
 void setup() {
   frameRate(30);
-  size(720, 720, P2D);
+  size(1080, 1080, P2D);
   noSmooth();
 
   // setup Video export
@@ -54,6 +54,21 @@ void setup() {
   // picks the best values for rendering the fractal
   fractal.simulate();
 
+  // vars = fractal.vars;
+  // increment = fractal.increment;
+  // morphingVar = fractal.morphingVar;
+
+  // println("Variables:");
+  // println("a:", vars[0]);
+  // println("b:", vars[1]);
+  // println("c:", vars[2]);
+  // println("d:", vars[3]);
+  // println("e:", vars[4]);
+  // println("f:", vars[5]);
+  // println("morphing:", morphingVar, " increment:", increment);
+
+
+
   // "rewind" the fractal backwards once on the mid frame
   fractal.setReversePoint(frames/2);
 }
@@ -62,7 +77,8 @@ void draw () {
   // set color
   background(255 - rgb.x, 255 - rgb.y, 255 - rgb.z);
   // inverse color for stroke
-  stroke(rgb.x,rgb.y, rgb.z, 18);
+  stroke(rgb.x,rgb.y, rgb.z, 10);
+  // stroke(rgb.x,rgb.y, rgb.z, 18);
   noFill();
 
   // count frames
