@@ -1,0 +1,15 @@
+version: "3.9"
+services:
+  build-app:
+    build:
+      context: .
+      dockerfile: ./Ossacip/Dockerfile
+    container_name: ossacip_bot_build
+    # volumes:
+    #   - type: bind
+    #     source: ./bot/app
+    #     target: /home/user/build
+    #   - type: bind
+    #     source: ./Ossacip
+    #     target: /home/user/Ossacip
+    command: processing-java --sketch=Ossacip --output=build --force --export

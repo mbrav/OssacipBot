@@ -5,6 +5,8 @@ sudo Xvfb :1 -screen 0 1024x768x24 </dev/null &
 export DISPLAY=":1"
 xinit ./app/Ossacip
 
+xvfb-run processing-java --sketch=app/Ossacip --run
+
 #runs the processing sketch normally
 # ./app/Ossacip
 
